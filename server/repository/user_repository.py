@@ -16,8 +16,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 def create_user(db: Session, user: UserCreate):
     db_user = User(
         email=user.email, 
-        role=user.role, 
-        is_active=user.is_active, 
+        role=user.role,
         first_name=user.first_name,
         last_name=user.last_name,
         password=generate_password_hash(user.password),

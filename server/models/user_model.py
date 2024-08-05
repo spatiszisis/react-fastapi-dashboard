@@ -18,7 +18,7 @@ class User(Timestamp, Base):
     role = Column(Enum(Role))
     first_name = Column(String(50), nullable=False)
     last_name = Column(String(50), nullable=False)
-    is_active = Column(Boolean, default=False)
+    is_active = Column(Boolean, default=True)
 
     nutritionPrograms = relationship("NutritionProgram", back_populates="user", cascade="all, delete-orphan")
     appointments = relationship("Appointment", back_populates="user", cascade="all, delete-orphan")

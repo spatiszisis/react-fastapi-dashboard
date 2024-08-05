@@ -3,7 +3,7 @@ from fastapi import APIRouter, status, Request
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from db.database import get_db
-from schemas.user_schema import UserCreate, User
+from schemas.user_schema import UserCreate, User, UserUpdate
 from repository import user_repository
 from fastapi_jwt_auth import AuthJWT
 
@@ -14,12 +14,12 @@ router = APIRouter(
 
 @router.get("/", response_model=List[User])
 async def read_users(request: Request, Authorize: AuthJWT=Depends(), skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    try:
-        Authorize.jwt_required()
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Token"
-        )
+    # try:
+    #     Authorize.jwt_required()
+    # except Exception as e:
+    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+    #         detail="Invalid Token"
+    #     )
     users = user_repository.get_users(db, skip=skip, limit=limit)
     return users
 
@@ -38,7 +38,7 @@ async def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 @router.put("/{user_id}", response_model=User)
-async def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
+async def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
     db_user = user_repository.get_user(db=db, user_id=user_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")

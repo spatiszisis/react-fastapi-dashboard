@@ -6,7 +6,6 @@ class UserBase(BaseModel):
     email: str
     password: str
     role: int
-    is_active: bool
     first_name: str
     last_name: str
 
@@ -14,10 +13,12 @@ class UserCreate(UserBase):
     pass
 
 class UserUpdate(UserBase):
+    is_active: bool
     pass
 
 class User(UserBase):
     id: int
+    is_active: bool
     created_at: datetime
     updated_at: datetime
     appointments: list[appointment_schema.Appointment] = []

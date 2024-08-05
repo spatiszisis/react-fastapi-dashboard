@@ -10,8 +10,22 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi.routing import APIRoute
 from fastapi.openapi.utils import get_openapi
 from schemas import auth_schema
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:8080",
+    "http://localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 user_model.Base.metadata.create_all(bind=engine)
 appointment_model.Base.metadata.create_all(bind=engine)
