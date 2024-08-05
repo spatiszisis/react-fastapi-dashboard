@@ -25,3 +25,12 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class TokenSchema(BaseModel):
+    access_token: str
+    refresh_token: str
+
+class TokenCreate(TokenSchema):
+    user_id: str
+    status: bool
+    created_at: datetime

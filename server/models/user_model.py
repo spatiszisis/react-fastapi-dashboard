@@ -1,5 +1,6 @@
 import enum
-from sqlalchemy import Boolean, Column, Integer, String, Enum
+import datetime
+from sqlalchemy import Boolean, Column, Integer, String, Enum, DateTime
 from sqlalchemy.orm import relationship
 from db.database import Base
 from .mixins_model import Timestamp
@@ -21,4 +22,12 @@ class User(Timestamp, Base):
 
     nutritionPrograms = relationship("NutritionProgram", back_populates="user", cascade="all, delete-orphan")
     appointments = relationship("Appointment", back_populates="user", cascade="all, delete-orphan")
-    
+
+class Token(Base):
+    __tablename__ = "tokens"
+
+    user_id = Column(Integer)
+    access_token = Column(String, primary_key=True, index=True)
+    refresh_token = Column(String)
+    status = Column(Boolean)
+    created_at = Column(DateTime, default= datetime.datetime.now())

@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from models.user_model import User
 from schemas.user_schema import UserCreate, UserUpdate
 import datetime
+from werkzeug.security import generate_password_hash
 
 def get_user(db: Session, user_id: int):
     return db.query(User).filter(User.id == user_id).first()
@@ -19,7 +20,7 @@ def create_user(db: Session, user: UserCreate):
         is_active=user.is_active, 
         first_name=user.first_name,
         last_name=user.last_name,
-        password=user.password,
+        password=generate_password_hash(user.password),
         created_at=datetime.datetime.now(), 
         updated_at=datetime.datetime.now()
     )
