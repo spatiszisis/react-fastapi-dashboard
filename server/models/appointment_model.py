@@ -9,8 +9,7 @@ class Appointment(Timestamp, Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
-    start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=False)
+    date = Column(DateTime, nullable=False)
     is_active = Column(Boolean, default=True)
 
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)

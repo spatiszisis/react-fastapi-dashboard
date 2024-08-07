@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Topbar from "./components/Topbar";
 import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+import Loading from "./components/progress/Loading";
+import { LoadingProvider } from "./components/progress/loading.context";
 
 const Admin = () => {
   const [isSidebar, setIsSidebar] = useState(true);
@@ -11,7 +13,10 @@ const Admin = () => {
       <Sidebar isSidebar={isSidebar} />
       <main className="content">
         <Topbar setIsSidebar={setIsSidebar} />
-        <Outlet />
+        <LoadingProvider>
+          <Outlet />
+          <Loading />
+        </LoadingProvider>
       </main>
     </div>
   );

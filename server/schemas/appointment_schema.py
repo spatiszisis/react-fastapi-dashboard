@@ -6,8 +6,7 @@ class AppointmentBase(BaseModel):
     title: str
     description: str
     is_active: bool
-    start_time: datetime
-    end_time: datetime
+    date: datetime
     user_id: int
 
 class AppointmentCreate(AppointmentBase):
