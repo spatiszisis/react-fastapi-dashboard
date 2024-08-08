@@ -9,6 +9,7 @@ import { NutritionProgramProvider } from "./context/NutritionProgramContext";
 import { NutritionProgramDayProvider } from "./context/NutritionProgramDayContext";
 import { UsersProvider } from "./context/UsersContext";
 import Modal from "./components/modal/Modal";
+import { LoaderProvider } from "./context/LoaderContext";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -16,22 +17,24 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <AlertProvider>
-          <ModalProvider>
-            <UsersProvider>
-              <AppointmentProvider>
-                <NutritionProgramProvider>
-                  <NutritionProgramDayProvider>
-                    <CssBaseline />
-                    <AlertDialog />
-                    <Modal />
-                    <Outlet />
-                  </NutritionProgramDayProvider>
-                </NutritionProgramProvider>
-              </AppointmentProvider>
-            </UsersProvider>
-          </ModalProvider>
-        </AlertProvider>
+        <LoaderProvider>
+          <AlertProvider>
+            <ModalProvider>
+              <UsersProvider>
+                <AppointmentProvider>
+                  <NutritionProgramProvider>
+                    <NutritionProgramDayProvider>
+                      <CssBaseline />
+                      <AlertDialog />
+                      <Modal />
+                      <Outlet />
+                    </NutritionProgramDayProvider>
+                  </NutritionProgramProvider>
+                </AppointmentProvider>
+              </UsersProvider>
+            </ModalProvider>
+          </AlertProvider>
+        </LoaderProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

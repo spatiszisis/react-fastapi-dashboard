@@ -13,8 +13,13 @@ import { useModal } from "../../hooks/useModal";
 import { User } from "../../models/User";
 import { tokens } from "../../theme";
 import AppointmentModal from "./AppointmentModal";
+import { Appointment } from "../../models/Appointment";
 
-const AppointmentDetailsModal = ({ appointment }: { appointment: any }) => {
+const AppointmentDetailsModal = ({
+  appointment,
+}: {
+  appointment: Appointment;
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { deleteAppointment } = useAppointments();
