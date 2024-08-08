@@ -1,28 +1,24 @@
 import { Box, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import Header from "./components/Header";
-import StatBox from "./components/StatBox";
-
+import StatBox from "../../components/StatBox";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import TrafficIcon from "@mui/icons-material/Traffic";
+import AdminLayout from "../../components/AdminLayout";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Box m="20px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="Dashboard" subtitle="Welcome to your dashboard" />
-      </Box>
-
+    <AdminLayout title="Dashboard" subtitle="Welcome to your dashboard">
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
         gap="20px"
+        mt="20px"
       >
         <Box
           gridColumn="span 3"
@@ -101,7 +97,7 @@ const Dashboard = () => {
           />
         </Box>
       </Box>
-    </Box>
+    </AdminLayout>
   );
 };
 

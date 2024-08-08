@@ -2,8 +2,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, IconButton, useTheme } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import { useContext, useState } from "react";
-import { ColorModeContext, tokens } from "../../../theme";
-
+import { ColorModeContext, tokens } from "../theme";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import Logout from "@mui/icons-material/Logout";

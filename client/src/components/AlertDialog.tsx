@@ -1,7 +1,6 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { Alert, AlertTitle, IconButton } from "@mui/material";
-import { useContext } from "react";
-import AlertContext from "./alert.context";
+import { useAlert } from "../hooks/useAlert";
 
 const alertStyles = {
   position: "absolute",
@@ -12,7 +11,7 @@ const alertStyles = {
 };
 
 const AlertDialog = () => {
-  const [alert, setAlert] = useContext(AlertContext);
+  const { alert, setAlert } = useAlert();
 
   if (!alert) {
     return null;
@@ -28,7 +27,7 @@ const AlertDialog = () => {
           color="inherit"
           size="small"
           onClick={() => {
-            setAlert(null);
+            setAlert(undefined);
           }}
         >
           <CloseIcon fontSize="inherit" />
@@ -48,7 +47,7 @@ const AlertDialog = () => {
           color="inherit"
           size="small"
           onClick={() => {
-            alert.setAlert(null);
+            setAlert(undefined);
           }}
         >
           <CloseIcon fontSize="inherit" />

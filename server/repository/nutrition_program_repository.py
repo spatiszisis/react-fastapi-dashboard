@@ -11,7 +11,7 @@ def get_nutrition_programs(db: Session, skip: int = 0, limit: int = 100):
 
 def create_nutrition_program(db: Session, nutrition_program: NutritionProgramCreate):
     db_nutrition_program = NutritionProgram(
-        text=nutrition_program.text, 
+        title=nutrition_program.title, 
         notes=nutrition_program.notes, 
         start_date=nutrition_program.start_date, 
         end_date=nutrition_program.end_date, 
@@ -26,7 +26,7 @@ def create_nutrition_program(db: Session, nutrition_program: NutritionProgramCre
 
 def update_nutrition_program(db: Session, nutrition_program_id: int, nutrition_program: NutritionProgramUpdate):
     db_nutrition_program = db.query(NutritionProgram).filter(NutritionProgram.id == nutrition_program_id).first()
-    db_nutrition_program.text = nutrition_program.text
+    db_nutrition_program.title = nutrition_program.title
     db_nutrition_program.notes = nutrition_program.notes
     db_nutrition_program.start_date = nutrition_program.start_date
     db_nutrition_program.end_date = nutrition_program.end_date

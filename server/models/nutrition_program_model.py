@@ -7,7 +7,7 @@ class NutritionProgram(Timestamp, Base):
     __tablename__ = "nutrition_programs"
 
     id = Column(Integer, primary_key=True, index=True)
-    text = Column(String(100), nullable=False)
+    title = Column(String(100), nullable=False)
     notes = Column(Text, nullable=True)
     start_date = Column(DateTime, nullable=False)
     end_date = Column(DateTime, nullable=False)
@@ -21,7 +21,7 @@ class NutritionProgramDay(Timestamp, Base):
 
     id = Column(Integer, primary_key=True, index=True)
     day = Column(DateTime, nullable=False)
-    text = Column(String(100), nullable=False)
+    title = Column(String(100), nullable=False)
     notes = Column(Text, nullable=True)
 
     nutrition_program_id = Column(Integer, ForeignKey("nutrition_programs.id"), nullable=False)

@@ -3,49 +3,52 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header";
+import NutritionProgramModal from "../../components/modal/NutritionProgramModal";
+import { useNutritionProgram } from "../../context/NutritionProgramContext";
 import { useUsers } from "../../context/UsersContext";
 import { useModal } from "../../hooks/useModal";
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
-import UserModel from "../../components/modal/UserModal";
 
-const enums = {
-  Role: {
-    Admin: 1,
-    Customer: 2,
-  },
-};
-
-const Users = () => {
+const NutritionPrograms = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { users, deleteUser } = useUsers();
+  const { nutritionPrograms, deleteNutritionProgram } = useNutritionProgram();
+  const { users } = useUsers();
   const { setModal } = useModal();
+  const navigate = useNavigate();
 
   const columns = useMemo<GridColDef[]>(
     () => [
       { field: "id", headerName: "ID", flex: 0.5 },
       {
-        field: "first_name",
-        headerName: "First Name",
+        field: "title",
+        headerName: "Text",
         flex: 1,
       },
       {
-        field: "last_name",
-        headerName: "Last Name",
+        field: "notes",
+        headerName: "Notes",
         flex: 1,
       },
       {
-        field: "email",
-        headerName: "Email",
-        flex: 1,
-      },
-      {
-        field: "role",
-        headerName: "Role",
+        field: "date",
+        headerName: "Dates",
         flex: 1,
         valueGetter: (_value, row) =>
-          row.role === enums.Role.Admin ? "Admin" : "Customer",
+          `${new Date(row.start_date).toLocaleDateString()} - ${new Date(
+            row.end_date
+          ).toLocaleDateString()}`,
+      },
+      {
+        field: "user_id",
+        headerName: "Customer",
+        flex: 1,
+        valueGetter: (_value, row) => {
+          const user = users.find((user) => user.id === row.user_id);
+          return user ? `${user.first_name} ${user.last_name}` : "-";
+        },
       },
       {
         field: "actions",
@@ -62,8 +65,10 @@ const Users = () => {
               setModal({
                 open: true,
                 type: "edit",
-                title: "Edit this user",
-                children: <UserModel user={params.row} />,
+                title: "Edit this Nutrition Program",
+                children: (
+                  <NutritionProgramModal nutritionProgram={params.row} />
+                ),
               })
             }
           />,
@@ -75,10 +80,10 @@ const Users = () => {
               setModal({
                 open: true,
                 type: "delete",
-                title: "Delete this user",
-                content: "Do you really want to delete this user?",
+                title: "Delete this Nutrition Program",
+                content: "Do you really want to delete this nutrition program?",
                 submitAction: () => {
-                  deleteUser(params.row.id);
+                  deleteNutritionProgram(params.row.id);
                   setModal(undefined);
                 },
               })
@@ -90,6 +95,10 @@ const Users = () => {
     []
   );
 
+  const handleRowClick = (row: any) => {
+    navigate(`/admin/nutrition-program/${row.id}`);
+  };
+
   return (
     <Box m="20px">
       <Box
@@ -98,7 +107,10 @@ const Users = () => {
         alignItems="center"
         mb="25px"
       >
-        <Header title="Users" subtitle="List of users" />
+        <Header
+          title="Nutrition Programs"
+          subtitle="List of nutrition programs"
+        />
 
         <Button
           type="button"
@@ -107,13 +119,13 @@ const Users = () => {
               type: "add",
               open: true,
               title: "Create new user",
-              children: <UserModel user={null} />,
+              children: <NutritionProgramModal nutritionProgram={null} />,
             })
           }
           color="secondary"
           variant="contained"
         >
-          Add user
+          Add new Nutrition Program
         </Button>
       </Box>
 
@@ -121,6 +133,7 @@ const Users = () => {
         m="10px 0 0 0"
         height="75vh"
         sx={{
+          width: "100%",
           "& .MuiDataGrid-root": {
             border: "none",
           },
@@ -149,10 +162,14 @@ const Users = () => {
           },
         }}
       >
-        <DataGrid rows={users} columns={columns} />
+        <DataGrid
+          rows={nutritionPrograms}
+          columns={columns}
+          onRowClick={handleRowClick}
+        />
       </Box>
     </Box>
   );
 };
 
-export default Users;
+export default NutritionPrograms;

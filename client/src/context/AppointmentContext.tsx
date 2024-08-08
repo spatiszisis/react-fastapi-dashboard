@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { Appointment } from "../../../models/Appointment";
-import AlertContext from "../components/alert/alert.context";
-import api from "../../../api";
+import api from "../api";
+import { useAlert } from "../hooks/useAlert";
+import { Appointment } from "../models/Appointment";
 
 interface AppointmentContextType {
   appointments: Appointment[];
@@ -33,7 +33,7 @@ interface AppointmentProviderProps {
 
 export const AppointmentProvider = ({ children }: AppointmentProviderProps) => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [, setAlert] = useContext(AlertContext);
+  const { setAlert } = useAlert();
 
   const getAppointments = async () => {
     try {

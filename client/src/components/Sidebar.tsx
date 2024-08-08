@@ -1,13 +1,14 @@
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import { Menu, MenuItem, ProSidebar } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { Link } from "react-router-dom";
-import { tokens } from "../../../theme";
+import { tokens } from "../theme";
 
 const Item = ({
   title,
@@ -120,6 +121,13 @@ const Sidebar = () => {
               title="Appointments"
               to="/admin/appointments"
               icon={<CalendarTodayOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Nutrition Programms"
+              to="/admin/nutrition-programms"
+              icon={<PostAddIcon />}
               selected={selected}
               setSelected={setSelected}
             />

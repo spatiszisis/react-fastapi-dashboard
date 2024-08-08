@@ -2,8 +2,8 @@ from datetime import datetime
 from pydantic import BaseModel
 
 class NutritionProgramDayBase(BaseModel):
+    title: str
     day: datetime
-    text: str
     notes: str
     nutrition_program_id: int
 

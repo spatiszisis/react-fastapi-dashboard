@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import api from "../../../api";
-import { User, UserCreate, UserUpdate } from "../../../models/User";
-import AlertContext from "../components/alert/alert.context";
+import api from "../api";
+import { useAlert } from "../hooks/useAlert";
+import { User, UserCreate, UserUpdate } from "../models/User";
 
 interface UserContextType {
   users: User[];
@@ -28,7 +28,7 @@ interface UserProviderProps {
 
 export const UsersProvider = ({ children }: UserProviderProps) => {
   const [users, setUsers] = useState<User[]>([]);
-  const [, setAlert] = useContext(AlertContext);
+  const { setAlert } = useAlert();
 
   const getUsers = async () => {
     try {

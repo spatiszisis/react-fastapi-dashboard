@@ -10,14 +10,13 @@ import {
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { Formik } from "formik";
-import { useContext } from "react";
 import * as yup from "yup";
-import { useUsers } from "../../contexts/UsersContext";
-import ModalContext from "./modal.context";
+import { useUsers } from "../../context/UsersContext";
+import { useModal } from "../../hooks/useModal";
 
 const UserModel = ({ user }: { user: any }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [, setModal] = useContext(ModalContext);
+  const { setModal } = useModal();
   const { createUser, updateUser } = useUsers();
 
   const initialValues = {
@@ -48,7 +47,7 @@ const UserModel = ({ user }: { user: any }) => {
         password: "string",
       });
     }
-    setModal(null);
+    setModal(undefined);
   };
 
   return (
@@ -130,8 +129,8 @@ const UserModel = ({ user }: { user: any }) => {
             </Box>
             <DialogActions>
               <Button
-                onClick={() => setModal(null)}
-                color="neutral"
+                onClick={() => setModal(undefined)}
+                color="secondary"
                 variant="contained"
                 type="button"
               >

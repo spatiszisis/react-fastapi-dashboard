@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from schemas import nutrition_program_day_schema
 
 class NutritionProgramBase(BaseModel):
-    text: str
+    title: str
     notes: str
     start_date: datetime
     end_date: datetime

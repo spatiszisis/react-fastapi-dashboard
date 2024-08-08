@@ -1,12 +1,14 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import { AlertProvider } from "./pages/Admin/components/alert/alert.context";
-import AlertDialog from "./pages/Admin/components/alert/AlertDialog";
-import { ModalProvider } from "./pages/Admin/components/modal/modal.context";
 import { ColorModeContext, useMode } from "./theme";
-import Modal from "./pages/Admin/components/modal/Modal";
-import { UsersProvider } from "./pages/Admin/contexts/UsersContext";
-import { AppointmentProvider } from "./pages/Admin/contexts/AppointmentContext";
+import AlertDialog from "./components/AlertDialog";
+import { AlertProvider } from "./context/AlertContext";
+import { ModalProvider } from "./context/ModalContext";
+import { AppointmentProvider } from "./context/AppointmentContext";
+import { NutritionProgramProvider } from "./context/NutritionProgramContext";
+import { NutritionProgramDayProvider } from "./context/NutritionProgramDayContext";
+import { UsersProvider } from "./context/UsersContext";
+import Modal from "./components/modal/Modal";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -18,10 +20,14 @@ function App() {
           <ModalProvider>
             <UsersProvider>
               <AppointmentProvider>
-                <CssBaseline />
-                <AlertDialog />
-                <Modal />
-                <Outlet />
+                <NutritionProgramProvider>
+                  <NutritionProgramDayProvider>
+                    <CssBaseline />
+                    <AlertDialog />
+                    <Modal />
+                    <Outlet />
+                  </NutritionProgramDayProvider>
+                </NutritionProgramProvider>
               </AppointmentProvider>
             </UsersProvider>
           </ModalProvider>

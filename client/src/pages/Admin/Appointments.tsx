@@ -3,23 +3,19 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Box, Button, Typography, useTheme } from "@mui/material";
-import { useContext, useEffect } from "react";
-import { tokens } from "../../theme";
-import Header from "./components/Header";
-import AppointmentDetailsModal from "./components/modal/AppointmentDetailsModal";
-import AppointmentModal from "./components/modal/AppointmentModal";
-import ModalContext from "./components/modal/modal.context";
-import { useAppointments } from "./contexts/AppointmentContext";
+import { Box, Button, Typography } from "@mui/material";
+import { useEffect } from "react";
+import Header from "../../components/Header";
+import AppointmentDetailsModal from "../../components/modal/AppointmentDetailsModal";
+import AppointmentModal from "../../components/modal/AppointmentModal";
+import { useAppointments } from "../../context/AppointmentContext";
+import { useModal } from "../../hooks/useModal";
 
 const Appointments = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const { appointments, getAppointments, readAppointment } = useAppointments();
-  const [, setModal] = useContext(ModalContext);
+  const { appointments, readAppointment } = useAppointments();
+  const { setModal } = useModal();
 
   useEffect(() => {
-    getAppointments();
     showCalendar();
   }, []);
 

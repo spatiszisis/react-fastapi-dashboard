@@ -1,22 +1,28 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import Topbar from "./components/Topbar";
-import Loading from "./components/progress/Loading";
-import { LoadingProvider } from "./components/progress/loading.context";
+import { useAppointments } from "../../context/AppointmentContext";
+import { useNutritionProgram } from "../../context/NutritionProgramContext";
+import { useUsers } from "../../context/UsersContext";
+import Sidebar from "../../components/Sidebar";
+import Topbar from "../../components/Topbar";
 
 const Admin = () => {
-  const [isSidebar, setIsSidebar] = useState(true);
+  const { getUsers } = useUsers();
+  const { getAppointments } = useAppointments();
+  const { getNutritionPrograms } = useNutritionProgram();
+
+  useEffect(() => {
+    getUsers();
+    getAppointments();
+    getNutritionPrograms();
+  }, []);
 
   return (
     <div className="app">
-      <Sidebar isSidebar={isSidebar} />
+      <Sidebar />
       <main className="content">
-        <Topbar setIsSidebar={setIsSidebar} />
-        <LoadingProvider>
-          <Outlet />
-          <Loading />
-        </LoadingProvider>
+        <Topbar />
+        <Outlet />
       </main>
     </div>
   );

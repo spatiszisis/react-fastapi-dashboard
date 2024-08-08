@@ -1,3 +1,6 @@
+import { Appointment } from "./Appointment";
+import { NutritionProgram } from "./NutritionProgram";
+
 interface UserBase {
   email: string;
   password: string;
@@ -18,6 +21,6 @@ export interface User extends UserCreate {
   is_active: boolean;
   created_at: string;
   updated_at: string;
-  appointments: any[];
-  nutritionPrograms: any[];
+  appointments: Appointment[];
+  nutritionPrograms: NutritionProgram[];
 }

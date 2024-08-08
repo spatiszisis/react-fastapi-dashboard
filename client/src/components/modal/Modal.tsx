@@ -6,10 +6,17 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useContext } from "react";
-import ModalContext from "./modal.context";
+import { useModal } from "../../hooks/useModal";
 
-const DeleteModal = ({ closeModal, content, submitAction }) => {
+const DeleteModal = ({
+  closeModal,
+  content,
+  submitAction,
+}: {
+  closeModal: any;
+  content: any;
+  submitAction: any;
+}) => {
   return (
     <>
       <DialogContent>
@@ -20,7 +27,7 @@ const DeleteModal = ({ closeModal, content, submitAction }) => {
       <DialogActions>
         <Button
           onClick={() => closeModal()}
-          color="neutral"
+          color="secondary"
           variant="contained"
           type="button"
         >
@@ -35,20 +42,20 @@ const DeleteModal = ({ closeModal, content, submitAction }) => {
 };
 
 const Modal = () => {
-  const [modal, setModal] = useContext(ModalContext);
+  const { modal, setModal } = useModal();
 
   if (!modal) {
     return null;
   }
 
   const handleCloseModal = () => {
-    setModal(null);
+    setModal(undefined);
   };
 
   return (
     <Dialog
       open={modal.open}
-      onClose={() => setModal(null)}
+      onClose={() => setModal(undefined)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

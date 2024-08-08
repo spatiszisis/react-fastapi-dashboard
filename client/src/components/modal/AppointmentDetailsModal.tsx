@@ -1,13 +1,18 @@
-import { useTheme } from "@emotion/react";
 import { formatDate } from "@fullcalendar/core/index.js";
-import { Box, Button, DialogContent, Typography } from "@mui/material";
-import { tokens } from "../../../../theme";
-import { useAppointments } from "../../contexts/AppointmentContext";
-import { useContext, useEffect, useState } from "react";
-import ModalContext from "./modal.context";
+import {
+  Box,
+  Button,
+  DialogContent,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import { useAppointments } from "../../context/AppointmentContext";
+import { useUsers } from "../../context/UsersContext";
+import { useModal } from "../../hooks/useModal";
+import { User } from "../../models/User";
+import { tokens } from "../../theme";
 import AppointmentModal from "./AppointmentModal";
-import { useUsers } from "../../contexts/UsersContext";
-import { User } from "../../../../models/User";
 
 const AppointmentDetailsModal = ({ appointment }: { appointment: any }) => {
   const theme = useTheme();
@@ -15,7 +20,7 @@ const AppointmentDetailsModal = ({ appointment }: { appointment: any }) => {
   const { deleteAppointment } = useAppointments();
   const { readUser } = useUsers();
   const [user, setUser] = useState<User>();
-  const [, setModal] = useContext(ModalContext);
+  const { setModal } = useModal();
 
   useEffect(() => {
     readUser(appointment.user_id).then((user) => setUser(user));
@@ -66,7 +71,7 @@ const AppointmentDetailsModal = ({ appointment }: { appointment: any }) => {
                 title: "Delete this Appointment",
                 content: `Are you sure you want to delete ${appointment.title}?`,
                 submitAction: () => {
-                  setModal(null);
+                  setModal(undefined);
                   deleteAppointment(appointment.id);
                 },
               })
