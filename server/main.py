@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import user_router, appointment_router, nutrition_program_router, auth_routes
+from routers import user_router, appointment_router, nutrition_program_router, auth_routes, nutrition_program_day_router
 from db.database import engine
 from models import user_model, appointment_model, nutrition_program_model
 import uvicorn
@@ -93,6 +93,7 @@ app.include_router(auth_routes.router)
 app.include_router(user_router.router)
 app.include_router(appointment_router.router)
 app.include_router(nutrition_program_router.router)
+app.include_router(nutrition_program_day_router.router)
 
 if __name__ == "__main__":
    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
