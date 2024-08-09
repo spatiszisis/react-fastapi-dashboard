@@ -2,7 +2,7 @@ import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Formik } from "formik";
 import * as yup from "yup";
-import Header from "../../components/Header";
+import AdminLayout from "../../components/AdminLayout";
 
 const Profile = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -30,11 +30,7 @@ const Profile = () => {
   };
 
   return (
-    <Box m="20px">
-      <Box mb="25px">
-        <Header title="Your profile" subtitle="Manage your profile" />
-      </Box>
-
+    <AdminLayout title="Your profile" subtitle="Manage your profile">
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -118,7 +114,7 @@ const Profile = () => {
           </form>
         )}
       </Formik>
-    </Box>
+    </AdminLayout>
   );
 };
 

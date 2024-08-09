@@ -20,7 +20,7 @@ class NutritionProgramDay(Timestamp, Base):
     __tablename__ = "nutrition_program_days"
 
     id = Column(Integer, primary_key=True, index=True)
-    day = Column(DateTime, nullable=False)
+    date = Column(DateTime, nullable=False)
     title = Column(String(100), nullable=False)
     notes = Column(Text, nullable=True)
 

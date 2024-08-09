@@ -11,10 +11,9 @@ const PATH = "/nutrition_programs";
 
 interface NutritionProgramContextType {
   nutritionPrograms: NutritionProgram[];
+  nutritionProgram: NutritionProgram;
   getNutritionPrograms: () => void;
-  readNutritionProgram: (
-    nutritionProgramId: number
-  ) => Promise<NutritionProgram>;
+  readNutritionProgram: (nutritionProgramId: number) => void;
   createNutritionProgram: (NutritionProgram: NutritionProgramCreate) => void;
   updateNutritionProgram: (
     nutritionProgramId: number,
@@ -47,6 +46,9 @@ export const NutritionProgramProvider = ({
   const [nutritionPrograms, setNutritionPrograms] = useState<
     NutritionProgram[]
   >([]);
+  const [nutritionProgram, setNutritionProgram] = useState<NutritionProgram>(
+    {} as NutritionProgram
+  );
   const { setAlert } = useAlert();
 
   const getNutritionPrograms = async () => {
@@ -61,7 +63,7 @@ export const NutritionProgramProvider = ({
   const readNutritionProgram = (nutritionProgramId: number) => {
     return api
       .get<NutritionProgram>(`${PATH}/${nutritionProgramId}`)
-      .then((response) => response.data);
+      .then((response) => setNutritionProgram(response.data));
   };
 
   const createNutritionProgram = async (
@@ -139,6 +141,7 @@ export const NutritionProgramProvider = ({
     <NutritionProgramContext.Provider
       value={{
         nutritionPrograms,
+        nutritionProgram,
         getNutritionPrograms,
         readNutritionProgram,
         createNutritionProgram,

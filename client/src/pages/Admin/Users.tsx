@@ -3,11 +3,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { useMemo } from "react";
+import AdminLayout from "../../components/AdminLayout";
+import UserModel from "../../components/modal/UserModal";
 import { useUsers } from "../../context/UsersContext";
 import { useModal } from "../../hooks/useModal";
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
-import UserModel from "../../components/modal/UserModal";
 
 const enums = {
   Role: {
@@ -91,35 +91,29 @@ const Users = () => {
   );
 
   return (
-    <Box m="20px">
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb="25px"
+    <AdminLayout
+      title="Users"
+      subtitle="Here you can manage your uses. Click on the row to see more details."
+    >
+      <Button
+        type="button"
+        onClick={() =>
+          setModal({
+            type: "add",
+            open: true,
+            title: "Create new user",
+            children: <UserModel user={null} />,
+          })
+        }
+        color="secondary"
+        variant="contained"
       >
-        <Header title="Users" subtitle="List of users" />
-
-        <Button
-          type="button"
-          onClick={() =>
-            setModal({
-              type: "add",
-              open: true,
-              title: "Create new user",
-              children: <UserModel user={null} />,
-            })
-          }
-          color="secondary"
-          variant="contained"
-        >
-          Add user
-        </Button>
-      </Box>
+        Add new user
+      </Button>
 
       <Box
         m="10px 0 0 0"
-        height="75vh"
+        height="60vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -151,7 +145,7 @@ const Users = () => {
       >
         <DataGrid rows={users} columns={columns} />
       </Box>
-    </Box>
+    </AdminLayout>
   );
 };
 

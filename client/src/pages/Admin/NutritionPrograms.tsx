@@ -4,7 +4,7 @@ import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
+import AdminLayout from "../../components/AdminLayout";
 import NutritionProgramModal from "../../components/modal/NutritionProgramModal";
 import { useNutritionProgram } from "../../context/NutritionProgramContext";
 import { useUsers } from "../../context/UsersContext";
@@ -100,38 +100,29 @@ const NutritionPrograms = () => {
   };
 
   return (
-    <Box m="20px">
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb="25px"
+    <AdminLayout
+      title="Nutrition Programs"
+      subtitle="Here you can manage your nutriton programs. Click on the row to see more details."
+    >
+      <Button
+        type="button"
+        onClick={() =>
+          setModal({
+            type: "add",
+            open: true,
+            title: "Create new user",
+            children: <NutritionProgramModal nutritionProgram={null} />,
+          })
+        }
+        color="secondary"
+        variant="contained"
       >
-        <Header
-          title="Nutrition Programs"
-          subtitle="List of nutrition programs"
-        />
-
-        <Button
-          type="button"
-          onClick={() =>
-            setModal({
-              type: "add",
-              open: true,
-              title: "Create new user",
-              children: <NutritionProgramModal nutritionProgram={null} />,
-            })
-          }
-          color="secondary"
-          variant="contained"
-        >
-          Add new Nutrition Program
-        </Button>
-      </Box>
+        Add new Nutrition Program
+      </Button>
 
       <Box
         m="10px 0 0 0"
-        height="75vh"
+        height="60vh"
         sx={{
           width: "100%",
           "& .MuiDataGrid-root": {
@@ -168,7 +159,7 @@ const NutritionPrograms = () => {
           onRowClick={handleRowClick}
         />
       </Box>
-    </Box>
+    </AdminLayout>
   );
 };
 

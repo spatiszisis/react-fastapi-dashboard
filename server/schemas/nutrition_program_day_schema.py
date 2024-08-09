@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class NutritionProgramDayBase(BaseModel):
     title: str
-    day: datetime
+    date: datetime
     notes: str
     nutrition_program_id: int
 

@@ -6,21 +6,29 @@ import {
   NutritionProgramDayCreate,
   NutritionProgramDayUpdate,
 } from "../models/NutritionProgramDay";
+import { useNutritionProgram } from "./NutritionProgramContext";
+
+const PATH = "/nutrition_program_days";
 
 interface NutritionProgramDayContextType {
   nutritionProgramDays: NutritionProgramDay[];
   getNutritionProgramDays: () => void;
   readNutritionProgramDay: (
     nutritionProgramDayId: number
-  ) => Promise<NutritionProgramDay | undefined>;
+  ) => Promise<NutritionProgramDay>;
   createNutritionProgramDay: (
-    nutritionProgramDay: NutritionProgramDayCreate
+    nutritionProgramDay: NutritionProgramDayCreate,
+    nutritionProgramId: number
   ) => void;
   updateNutritionProgramDay: (
     nutritionProgramDayId: number,
-    nutritionProgramDay: NutritionProgramDayUpdate
+    nutritionProgramDay: NutritionProgramDayUpdate,
+    nutritionProgramId: number
   ) => void;
-  deleteNutritionProgramDay: (nutritionProgramDayId: number) => void;
+  deleteNutritionProgramDay: (
+    nutritionProgramDayId: number,
+    nutritionProgramId: number
+  ) => void;
 }
 
 const NutritionProgramDayContext = createContext<
@@ -48,12 +56,11 @@ export const NutritionProgramDayProvider = ({
     NutritionProgramDay[]
   >([]);
   const { setAlert } = useAlert();
+  const { readNutritionProgram } = useNutritionProgram();
 
   const getNutritionProgramDays = async () => {
     try {
-      const response = await api.get<NutritionProgramDay[]>(
-        "/nutrition_program_days"
-      );
+      const response = await api.get<NutritionProgramDay[]>(PATH);
       setNutritionProgramDays(response.data);
     } catch (error) {
       console.error(error);
@@ -62,18 +69,17 @@ export const NutritionProgramDayProvider = ({
 
   const readNutritionProgramDay = (nutritionProgramDayId: number) => {
     return api
-      .get<NutritionProgramDay>(
-        `/nutrition_program_days/${nutritionProgramDayId}`
-      )
+      .get<NutritionProgramDay>(`${PATH}/${nutritionProgramDayId}`)
       .then((response) => response.data);
   };
 
   const createNutritionProgramDay = async (
-    nutritionProgramDay: NutritionProgramDayCreate
+    nutritionProgramDay: NutritionProgramDayCreate,
+    nutritionProgramId: number
   ) => {
     try {
       await api
-        .post(`/nutrition_program_days`, nutritionProgramDay)
+        .post(PATH, nutritionProgramDay)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -86,7 +92,7 @@ export const NutritionProgramDayProvider = ({
             text: error.response.data.detail,
           })
         )
-        .finally(() => getNutritionProgramDays());
+        .finally(() => readNutritionProgram(nutritionProgramId));
     } catch (error) {
       console.error(error);
     }
@@ -94,14 +100,12 @@ export const NutritionProgramDayProvider = ({
 
   const updateNutritionProgramDay = async (
     nutritionProgramDayId: number,
-    updatedNutritionProgramDay: NutritionProgramDayUpdate
+    updatedNutritionProgramDay: NutritionProgramDayUpdate,
+    nutritionProgramId: number
   ) => {
     try {
       await api
-        .put(
-          `/nutrition_program_days/${nutritionProgramDayId}`,
-          updatedNutritionProgramDay
-        )
+        .put(`${PATH}/${nutritionProgramDayId}`, updatedNutritionProgramDay)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -114,16 +118,19 @@ export const NutritionProgramDayProvider = ({
             text: error.response.data.detail,
           })
         )
-        .finally(() => getNutritionProgramDays());
+        .finally(() => readNutritionProgram(nutritionProgramId));
     } catch (error) {
       console.error(error);
     }
   };
 
-  const deleteNutritionProgramDay = async (nutritionProgramDayId: number) => {
+  const deleteNutritionProgramDay = async (
+    nutritionProgramDayId: number,
+    nutritionProgramId: number
+  ) => {
     try {
       await api
-        .delete(`/nutrition_program_days/${nutritionProgramDayId}`)
+        .delete(`${PATH}/${nutritionProgramDayId}`)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -136,7 +143,7 @@ export const NutritionProgramDayProvider = ({
             text: error.response.data.detail,
           })
         )
-        .finally(() => getNutritionProgramDays());
+        .finally(() => readNutritionProgram(nutritionProgramId));
     } catch (error) {
       console.error(error);
     }

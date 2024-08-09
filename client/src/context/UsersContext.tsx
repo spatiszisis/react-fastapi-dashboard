@@ -3,6 +3,8 @@ import api from "../api";
 import { useAlert } from "../hooks/useAlert";
 import { User, UserCreate, UserUpdate } from "../models/User";
 
+const PATH = "/users";
+
 interface UserContextType {
   users: User[];
   getUsers: () => void;
@@ -32,7 +34,7 @@ export const UsersProvider = ({ children }: UserProviderProps) => {
 
   const getUsers = async () => {
     try {
-      const response = await api.get<User[]>("/users/?skip=0&limit=100");
+      const response = await api.get<User[]>(`${PATH}/?skip=0&limit=100`);
       setUsers(response.data);
     } catch (error) {
       console.error(error);
@@ -42,7 +44,7 @@ export const UsersProvider = ({ children }: UserProviderProps) => {
   const createUser = async (user: UserCreate) => {
     try {
       await api
-        .post(`/users`, user)
+        .post(PATH, user)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -64,7 +66,7 @@ export const UsersProvider = ({ children }: UserProviderProps) => {
   const updateUser = async (userId: number, user: UserUpdate) => {
     try {
       await api
-        .put(`/users/${userId}`, user)
+        .put(`${PATH}/${userId}`, user)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -86,7 +88,7 @@ export const UsersProvider = ({ children }: UserProviderProps) => {
   const deleteUser = async (userId: number) => {
     try {
       await api
-        .delete(`/users/${userId}`)
+        .delete(`${PATH}/${userId}`)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -107,7 +109,7 @@ export const UsersProvider = ({ children }: UserProviderProps) => {
 
   const readUser = async (userId: number) => {
     return await api
-      .get<User>(`/users/${userId}`)
+      .get<User>(`${PATH}/${userId}`)
       .then((response) => response.data);
   };
 

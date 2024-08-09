@@ -3,6 +3,8 @@ import api from "../api";
 import { useAlert } from "../hooks/useAlert";
 import { Appointment } from "../models/Appointment";
 
+const PATH = "/appointments";
+
 interface AppointmentContextType {
   appointments: Appointment[];
   getAppointments: () => void;
@@ -37,7 +39,7 @@ export const AppointmentProvider = ({ children }: AppointmentProviderProps) => {
 
   const getAppointments = async () => {
     try {
-      const response = await api.get<Appointment[]>("/appointments");
+      const response = await api.get<Appointment[]>(PATH);
       setAppointments(response.data);
     } catch (error) {
       console.error(error);
@@ -46,14 +48,14 @@ export const AppointmentProvider = ({ children }: AppointmentProviderProps) => {
 
   const readAppointment = (appointmentId: number) => {
     return api
-      .get<Appointment>(`/appointments/${appointmentId}`)
+      .get<Appointment>(`${PATH}/${appointmentId}`)
       .then((response) => response.data);
   };
 
   const createAppointment = async (appointment: Appointment) => {
     try {
       await api
-        .post(`/appointments`, appointment)
+        .post(PATH, appointment)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -78,7 +80,7 @@ export const AppointmentProvider = ({ children }: AppointmentProviderProps) => {
   ) => {
     try {
       await api
-        .put(`/appointments/${appointmentId}`, updatedAppointment)
+        .put(`${PATH}/${appointmentId}`, updatedAppointment)
         .then((value: any) =>
           setAlert({
             type: "success",
@@ -100,7 +102,7 @@ export const AppointmentProvider = ({ children }: AppointmentProviderProps) => {
   const deleteAppointment = async (appointmentId: number) => {
     try {
       await api
-        .delete(`/appointments/${appointmentId}`)
+        .delete(`${PATH}/${appointmentId}`)
         .then((value: any) =>
           setAlert({
             type: "success",

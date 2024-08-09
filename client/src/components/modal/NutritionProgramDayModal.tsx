@@ -3,74 +3,72 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  InputLabel,
-  Select,
   TextField,
   useMediaQuery,
 } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs, { Dayjs } from "dayjs";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
-import { useNutritionProgram } from "../../context/NutritionProgramContext";
-import { useUsers } from "../../context/UsersContext";
+import { useNutritionProgramDay } from "../../context/NutritionProgramDayContext";
 import { useModal } from "../../hooks/useModal";
+import { NutritionProgramDay } from "../../models/NutritionProgramDay";
 
-const NutritionProgramModal = ({
-  nutritionProgram,
+const NutritionProgramDayModal = ({
+  nutritionProgramDay,
+  nutritionProgramId,
 }: {
-  nutritionProgram: any;
+  nutritionProgramDay: NutritionProgramDay | undefined;
+  nutritionProgramId: number | undefined;
 }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const { setModal } = useModal();
-  const { createNutritionProgram, updateNutritionProgram } =
-    useNutritionProgram();
-  const { users } = useUsers();
-  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(""));
-  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(""));
+  const { createNutritionProgramDay, updateNutritionProgramDay } =
+    useNutritionProgramDay();
+  const [date, setDate] = useState<Dayjs | null>(dayjs(""));
 
   useEffect(() => {
-    if (nutritionProgram?.start_date) {
-      setStartDate(dayjs(nutritionProgram.start_date));
-      setEndDate(dayjs(nutritionProgram.end_date));
+    if (nutritionProgramDay?.date) {
+      setDate(dayjs(nutritionProgramDay.date));
     }
   }, []);
 
   const checkoutSchema = yup.object().shape({
     title: yup.string().required("required"),
     notes: yup.string().required("required"),
-    user_id: yup.number().required("required"),
   });
 
   const initialValues = {
-    title: nutritionProgram?.title || "",
-    notes: nutritionProgram?.notes || "",
-    start_date: nutritionProgram?.start_date || "",
-    end_date: nutritionProgram?.end_date || "",
-    user_id: nutritionProgram?.user_id || "",
+    title: nutritionProgramDay?.title || "",
+    notes: nutritionProgramDay?.notes || "",
+    date: nutritionProgramDay?.date || "",
   };
 
-  const handleSubmit = (nutritionProgramForm: any) => {
-    if (nutritionProgram && nutritionProgram?.id) {
-      updateNutritionProgram(nutritionProgram.id, {
-        ...nutritionProgramForm,
-        id: nutritionProgram.id,
-        start_date: startDate?.format("YYYY-MM-DD HH:mm:ss"),
-        end_date: endDate?.format("YYYY-MM-DD HH:mm:ss"),
-        is_active: nutritionProgram.is_active,
-      });
+  const handleSubmit = (nutritionProgramDayForm: any) => {
+    if (nutritionProgramDay && nutritionProgramDay?.id) {
+      updateNutritionProgramDay(
+        nutritionProgramDay.id,
+        {
+          ...nutritionProgramDayForm,
+          id: nutritionProgramDay.id,
+          date: date?.format("YYYY-MM-DD HH:mm:ss"),
+          nutrition_program_id: nutritionProgramDay.nutrition_program_id,
+        },
+        nutritionProgramId as number
+      );
     } else {
-      createNutritionProgram({
-        ...nutritionProgramForm,
-        start_date: startDate?.format("YYYY-MM-DD HH:mm:ss"),
-        end_date: endDate?.format("YYYY-MM-DD HH:mm:ss"),
-        is_active: true,
-      });
+      createNutritionProgramDay(
+        {
+          ...nutritionProgramDayForm,
+          date: date?.format("YYYY-MM-DD HH:mm:ss"),
+          nutrition_program_id: nutritionProgramId,
+        },
+        nutritionProgramId as number
+      );
     }
     setModal(undefined);
   };
@@ -129,37 +127,13 @@ const NutritionProgramModal = ({
               <Box sx={{ gridColumn: "span 4" }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DateTimePicker"]}>
-                    <DatePicker
-                      label="Start Date"
-                      value={startDate}
-                      name="start_date"
-                      onChange={(v) => setStartDate(v)}
-                    />
-                    <DatePicker
-                      label="End Date"
-                      value={endDate}
-                      name="end_date"
-                      onChange={(v) => setEndDate(v)}
+                    <DateTimePicker
+                      value={date}
+                      name="date"
+                      onChange={(v) => setDate(v)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
-              </Box>
-              <Box sx={{ gridColumn: "span 4" }}>
-                <InputLabel id="user_id">Select Customer</InputLabel>
-                <Select
-                  fullWidth
-                  id="user_id"
-                  value={values.user_id}
-                  name="user_id"
-                  onChange={handleChange}
-                >
-                  {users &&
-                    users.map((user: any) => (
-                      <MenuItem key={user.id} value={user.id}>
-                        {user.first_name} - {user.last_name}
-                      </MenuItem>
-                    ))}
-                </Select>
               </Box>
             </Box>
             <DialogActions>
@@ -172,7 +146,7 @@ const NutritionProgramModal = ({
                 Cancel
               </Button>
               <Button type="submit" color="secondary" variant="contained">
-                {nutritionProgram ? "Update" : "Create"}
+                {nutritionProgramDay ? "Update" : "Create"}
               </Button>
             </DialogActions>
           </form>
@@ -182,4 +156,4 @@ const NutritionProgramModal = ({
   );
 };
 
-export default NutritionProgramModal;
+export default NutritionProgramDayModal;

@@ -3,9 +3,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Box, Button, Typography } from "@mui/material";
-import { useEffect } from "react";
-import Header from "../../components/Header";
+import { Box, Typography } from "@mui/material";
+import AdminLayout from "../../components/AdminLayout";
 import AppointmentDetailsModal from "../../components/modal/AppointmentDetailsModal";
 import AppointmentModal from "../../components/modal/AppointmentModal";
 import { useAppointments } from "../../context/AppointmentContext";
@@ -14,10 +13,6 @@ import { useModal } from "../../hooks/useModal";
 const Appointments = () => {
   const { appointments, readAppointment } = useAppointments();
   const { setModal } = useModal();
-
-  useEffect(() => {
-    showCalendar();
-  }, []);
 
   const handleWhenDateClickedToAddNewAppointment = (selected: any) => {
     setModal({
@@ -63,73 +58,40 @@ const Appointments = () => {
     });
   };
 
-  const showCalendar = () => {
-    if (appointments.length) {
-      return (
-        <Box display="flex" justifyContent="space-between">
-          {/* <Box
-            flex="1 1 20%"
-            backgroundColor={colors.primary[400]}
-            p="15px"
-            borderRadius="4px"
-          >
-            <Typography variant="h5">Appointments</Typography>
-            <List>
-              {appointments.map((appointment) => (
-                <ListItem
-                  key={appointment.id}
-                  sx={{
-                    backgroundColor: colors.greenAccent[500],
-                    margin: "10px 0",
-                    borderRadius: "2px",
-                  }}
-                >
-                  <ListItemText
-                    primary={appointment.title}
-                    secondary={
-                      <Typography>
-                        {formatDate(appointment.date, {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Box> */}
+  return (
+    <AdminLayout
+      title="Appointments"
+      subtitle="Here you can manage your appointments. Click on the calendar to create, edit or delete an appointment."
+    >
+      {/* {showCalendar()} */}
 
-          <Box flex="1 1 100%" ml="15px">
-            <FullCalendar
-              height="75vh"
-              plugins={[
-                dayGridPlugin,
-                timeGridPlugin,
-                interactionPlugin,
-                listPlugin,
-              ]}
-              headerToolbar={{
-                left: "prev,next today",
-                center: "title",
-                right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-              }}
-              initialView="dayGridMonth"
-              editable={true}
-              selectable={true}
-              selectMirror={true}
-              dayMaxEvents={true}
-              select={handleWhenDateClickedToAddNewAppointment}
-              eventClick={handleWhenAppointmentClicked}
-              eventDrop={handleEditAppointmentWhenScrollToDifferentDate}
-              events={appointments}
-            />
-          </Box>
+      {appointments.length ? (
+        <Box flex="1 1 100%">
+          <FullCalendar
+            height="75vh"
+            plugins={[
+              dayGridPlugin,
+              timeGridPlugin,
+              interactionPlugin,
+              listPlugin,
+            ]}
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+            }}
+            initialView="dayGridMonth"
+            editable={true}
+            selectable={true}
+            selectMirror={true}
+            dayMaxEvents={true}
+            select={handleWhenDateClickedToAddNewAppointment}
+            eventClick={handleWhenAppointmentClicked}
+            eventDrop={handleEditAppointmentWhenScrollToDifferentDate}
+            events={appointments}
+          />
         </Box>
-      );
-    } else {
-      return (
+      ) : (
         <Box
           display="flex"
           justifyContent="center"
@@ -138,39 +100,8 @@ const Appointments = () => {
         >
           <Typography variant="h4">No Appointments</Typography>
         </Box>
-      );
-    }
-  };
-
-  return (
-    <Box m="20px">
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb="25px"
-      >
-        <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
-
-        <Button
-          type="button"
-          onClick={() =>
-            setModal({
-              open: true,
-              type: "add",
-              title: "Create new Appointment",
-              children: <AppointmentModal appointment={null} />,
-            })
-          }
-          color="secondary"
-          variant="contained"
-        >
-          Create new Appointment
-        </Button>
-      </Box>
-
-      {showCalendar()}
-    </Box>
+      )}
+    </AdminLayout>
   );
 };
 

@@ -11,8 +11,19 @@ const AdminLayout = ({
   subtitle: string;
 }) => {
   return (
-    <Box m="20px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+    <Box
+      sx={{
+        padding: "20px",
+        height: "90vh",
+        overflowY: "auto",
+      }}
+    >
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb="50px"
+      >
         <Header title={title} subtitle={subtitle} />
       </Box>
 
