@@ -1,7 +1,7 @@
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import PostAddIcon from "@mui/icons-material/PostAdd";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
@@ -126,8 +126,8 @@ const Sidebar = () => {
             />
             <Item
               title="Nutrition Programms"
-              to="/admin/nutrition-programms"
-              icon={<PostAddIcon />}
+              to="/admin/nutrition-programs"
+              icon={<MenuBookIcon />}
               selected={selected}
               setSelected={setSelected}
             />

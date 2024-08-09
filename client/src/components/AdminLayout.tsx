@@ -5,10 +5,12 @@ const AdminLayout = ({
   children,
   title,
   subtitle,
+  withBackButton = false,
 }: {
   children: any;
   title: string;
   subtitle: string;
+  withBackButton?: boolean;
 }) => {
   return (
     <Box
@@ -22,9 +24,13 @@ const AdminLayout = ({
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        mb="50px"
+        mb="30px"
       >
-        <Header title={title} subtitle={subtitle} />
+        <Header
+          title={title}
+          subtitle={subtitle}
+          withBackButton={withBackButton}
+        />
       </Box>
 
       {children}

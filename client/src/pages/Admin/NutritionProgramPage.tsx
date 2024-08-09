@@ -93,11 +93,21 @@ const NutritionProgramPage = () => {
     <AdminLayout
       title={`Nutrition Program - ${nutritionProgram?.title}`}
       subtitle="See details about the nutrition program"
+      withBackButton={true}
     >
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          backgroundColor: "#8080802e",
+          padding: "20px",
+          borderRadius: "10px",
+        }}
+      >
         <Box>
           {nutritionProgram && (
-            <Box mt="20px" display="flex" alignItems="center">
+            <Box display="flex" alignItems="center">
               <DateRangeIcon sx={{ marginRight: "5px" }} />
               <Typography fontWeight="bold" sx={{ color: colors.grey[100] }}>
                 {formatDate(nutritionProgram.start_date, {
@@ -207,6 +217,14 @@ const NutritionProgramPage = () => {
             eventClick={handleWhenAppointmentClicked}
             eventDrop={handleEditAppointmentWhenScrollToDifferentDate}
             events={nutritionProgram?.nutritionProgramDays}
+            validRange={
+              nutritionProgram
+                ? {
+                    start: nutritionProgram.start_date,
+                    end: nutritionProgram.end_date,
+                  }
+                : undefined
+            }
           />
         </Box>
       </Box>

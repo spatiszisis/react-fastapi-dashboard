@@ -46,7 +46,7 @@ const router = createBrowserRouter([
             element: <Settings />,
           },
           {
-            path: "/admin/nutrition-programms",
+            path: "/admin/nutrition-programs",
             element: <NutritionPrograms />,
           },
           {
